@@ -101,8 +101,22 @@ public class Staff {//Super Class
     public void setContactNo(int contactNo) {
         this.contactNo = contactNo;
     }
-
     
+    //Method to viewstaff information
+    public void viewStaff() {
+        System.out.printf("%5d %20s %30s %20s %10d ",
+        this.staffID,
+        this.firstName,
+        this.lastName,
+        this.emailAdd,
+        this.contactNo);
+    }
+    
+    public void printPayslip()
+    {
+        this.viewStaff();
+        System.out.println("Weekly pay for hourly staff: €300");
+    }
     
     
 }
