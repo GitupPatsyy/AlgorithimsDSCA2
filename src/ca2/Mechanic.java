@@ -88,7 +88,7 @@ public class Mechanic extends Staff {
     }
 
     @Override
-    public void printPayslip() {
+    public void printReview() {
         this.viewStaff();
 
         Calendar cCalendar = Calendar.getInstance();

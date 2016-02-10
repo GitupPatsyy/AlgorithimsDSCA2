@@ -8,6 +8,7 @@ package ca2;
 import java.io.File;
 import java.io.FileNotFoundException;
 import static java.lang.Integer.parseInt;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,13 +54,14 @@ public class Main {
 
                 case 2: {//No idea what this will do yet.. Output file? 
                     System.out.println("Generating staff payslisps...");
-                    generatePayslips(model);
+                    generateReview(model);
                     break;
                 }
 
                 case 3: {
                     System.out.println("View all drivers...");
                     viewDrivers(model); //Will view all drivers
+                    
                 }
 
             }
@@ -140,8 +142,10 @@ public class Main {
         }
         System.out.println();//Print a blank line for spacing
     }
+    
+  
 
-    private static void generatePayslips(Model m) {
+    private static void generateReview(Model m) {
         //OBject for a STAFF memeber. 
         //Staff member can be either driver or mechancic
         Staff s = null;
@@ -163,8 +167,8 @@ public class Main {
                 }
                 
                 if (s != null)
-                    //utilises polymorphism, can call drivers or the mechanics method to print payslips
-                    s.printPayslip();
+                    //utilises polymorphism, can call drivers or the mechanics method to print reviews
+                    s.printReview();
                 else 
                     System.out.println("Staff number: " + staffId + " non existent");
 

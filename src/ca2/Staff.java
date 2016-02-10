@@ -14,9 +14,9 @@ import java.sql.Date;
 public class Staff {//Super Class
     private int staffID;
     private String firstName;
-    private String lastName;
+    String lastName;
     String emailAdd;
-    private int contactNo;
+    int contactNo;
     
     public Staff (int staffID, String firstName, String lastName, String emailAdd, int contactNo){
         this.staffID = staffID;
@@ -112,10 +112,10 @@ public class Staff {//Super Class
         this.contactNo);
     }
     
-    public void printPayslip()
+    public void printReview()
     {
         this.viewStaff();
-        System.out.println("Weekly pay for hourly staff: €300");
+        System.out.println("Been looking at your performance lately, it really isnt up to stratch. The other partners and I have been talking and we're aftaid we are going to have to let you go.");
     }
     
     
