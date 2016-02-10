@@ -126,10 +126,10 @@ public class Main {
         if (drivers.isEmpty()) { //If the drivers is empty print out the error below
             System.out.println("There are no drivers within our database");
         } else {
-            System.out.printf("%10s %20s %40s %40s %12s %25s %10s %5s\n",//Formatting lenghts
-                    "StaffId", "First Name", "Last Name", "Email", "Contact No", "License No", "Start Date", "Hours Drove");
+            System.out.printf("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
+                    "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| License No |", "| Start Date |", "| Hours Drove |");
             for (Driver dr : drivers) {
-                System.out.printf("%10s %20s %40s %40s %12s %25s %10s %5s\n",
+                System.out.printf("%10s %20s %20s %20s %12s %15s %15s %15s\n",
                         dr.getStaffID(),
                         dr.getFirstName(),
                         dr.getLastName(),
@@ -137,7 +137,7 @@ public class Main {
                         dr.getContactNo(),
                         dr.getLicense(),
                         dr.getStartDate(),
-                        dr.getStartDate());
+                        dr.getHoursDrove());
             }
         }
         System.out.println();//Print a blank line for spacing
