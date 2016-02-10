@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -26,7 +28,7 @@ public class StaffGateway {
     private static final String COLUMN_EMAIL = "emailAdd";
     private static final String COLUMN_CONTACT = "contactNo";
     private static final String COLUMN_DATE = "startDate";
-    private static final String COLUMN_LICENSE = "licenseNumber";
+    private static final String COLUMN_LICENSE = "licenseNo";
     private static final String COLUMN_DROVE = "hoursDrove";
 
     private Connection cConnection;
@@ -35,7 +37,7 @@ public class StaffGateway {
         cConnection = connection;
     }
 
-    public boolean insertDriver(Staff driver) throws SQLException {
+    public boolean insertDriver(Driver driver) throws SQLException {
 
         boolean success = true; //set so success is defaulted to true
 
@@ -55,7 +57,7 @@ public class StaffGateway {
                 + COLUMN_DATE + ", "
                 + COLUMN_LICENSE + ", "
                 + COLUMN_DROVE
-                + ") VALUES (?,?,?,?,?,?)";
+                + ") VALUES (?,?,?,?,?,?,?)";
 
         try {
             stmt = cConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -63,8 +65,9 @@ public class StaffGateway {
             stmt.setString(2, driver.getLastName());
             stmt.setString(3, driver.getEmailAdd());
             stmt.setInt(4, driver.getContactNo());
-//            stmt.setDate(5, new Date(driver.getStartDate().getTime()));
-//            stmt.setString(6, driver.getLicense());
+            stmt.setDate(5, new Date(driver.getStartDate().getTime()));
+            stmt.setString(6, driver.getLicense());
+            stmt.setDouble(7, driver.getHoursDrove());
 
             rowsAffected = stmt.executeUpdate();//Update the table
 
@@ -96,4 +99,49 @@ public class StaffGateway {
         return success; //return the driver if created or null if issue
 
     }
+
+    public ArrayList<Driver> viewDriver() throws SQLException {
+        
+        String query; //for sql query
+        Statement stmt; //For executing SQL
+        
+        ResultSet resultSet; //Represents the results of the sql query
+        ArrayList<Driver> driver; //Arraylist with the driver objects
+        
+        //Fields to create a new driver object
+        int staffID;
+        String firstName;
+        String lastName;
+        String emailAdd;
+        int contactNo;
+        String license;
+        Date startDate = null;
+        double hoursDrove;
+        
+        //New driver object
+        Driver driver1;
+        //Executing of SQL statement 
+        query = "SELECT * FROM  " + TABLE_NAME; // Select all from the table ie: driver
+        stmt = this.cConnection.createStatement();
+        resultSet = stmt.executeQuery(query);
+        
+        //New empty arraylist for object
+        driver = new ArrayList<Driver>();
+        while(resultSet.next()){
+            staffID = resultSet.getInt(COLUMN_ID);
+            firstName = resultSet.getString(COLUMN_FNAME);
+            lastName = resultSet.getString(COLUMN_LNAME);
+            emailAdd = resultSet.getString(COLUMN_EMAIL);
+            contactNo = resultSet.getInt(COLUMN_CONTACT);
+            license = resultSet.getString(COLUMN_LICENSE);
+            startDate = resultSet.getDate(COLUMN_DATE);
+            hoursDrove = resultSet.getDouble(COLUMN_DROVE);
+                    
+            driver.add(new Driver(staffID, firstName, lastName, emailAdd, contactNo, license, startDate, hoursDrove));
+            
+        }
+        return driver;
+        
+    }
 }
+

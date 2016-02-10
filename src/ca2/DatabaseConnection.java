@@ -27,7 +27,7 @@ public class DatabaseConnection {
     private static final String USERNAME = "rorypb";
     private static final String PASSWORD = "root";
     private static final String CONN_STRING =
-            "jdbc:mysql://localhost:8889/CA1-TourBusMassacre";
+            "jdbc:mysql://localhost:8889/JavaCA2";
     //Connection to local server
 
     //==================================

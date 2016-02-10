@@ -21,12 +21,13 @@ public class Model {
 
     private ArrayList<Buses> buses; //Private arraylist for buses
     private BusGateway busGateway; //For connection to the DB
+    private StaffGateway staffGateway; 
     private List<Driver> driver; //Private arraylist for storing Drivers
     //private ArrayList<Mechanic> mechaninc; //Private arraylist for storing Mechanics
 
     private static Model instance = null; //Set instance value
 
-    public static synchronized Model getInstance() //Creates instance for the Bus Object
+    public static synchronized Model getInstance()  //Creates instance for the Bus Object
     {
         if (instance == null) {
             instance = new Model();//Creates a new instance because "instance = null"
@@ -38,20 +39,36 @@ public class Model {
     //FOR CA2 DRIVER METHODS WILL GO HERE
 
     private Model() {
-        this.driver = new ArrayList<>();
-        
-        this.driver.add(new Driver(1, "John", "Doe", "kickass@hotmail.com", 877654, "PC12341", new Date(2012-01-01), 33.5));
-        
+        this.driver = new ArrayList<>();        
+        //When the Model object is created it creates a connection to the database.
+        this.staffGateway = new StaffGateway(DatabaseConnection.getInstance().getDbConnection());
+        //        this.driver.add(new Driver(1, "John", "Doe", "kickass@hotmail.com", 877654, "PC12341", new Date(2012-01-01), 33.5));
+        try {            
+            this.driver = this.staffGateway.viewDriver();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     public List<Driver> getDrivers(){
             return new ArrayList<>
                     (this.driver);
         }
     public void addDriver(Driver d){
-        if(d.getStaffID() == -1){ //if staffid is = to -1
-//            System.out.println(this.driver.size());
-           d.setStaffID(this.driver.size()+1);  //we are going to get the size of the arraylist and add one to each of the values
-        }//auto incrementing the id
+         try {
+            this.staffGateway.insertDriver(d);//Instead of calling the busGateway in my main method
+        } catch (SQLException e) {
+
+        }
+         
+         
+//         f(d.getStaffID() == -1){ //if staffid is = to -1
+////            System.out.println(this.driver.size());
+//           d.setStaffID(this.driver.size()+1);  //we are going to get the size of the arraylist and add one to each of the values
+//        }//auto incrementing the id
+        
+        
         this.driver.add(d);
         
     }
@@ -72,6 +89,16 @@ public class Model {
         }
         return d;
     }
+    
+//    public ArrayList<Driver> viewDrivers() throws SQLException{
+//        try {
+//            this.driver = staffGateway.viewDriver();
+//        } catch(SQLException e){
+//            
+//        }
+//                return this.driver;
+//        
+//    }
 //------------------------------------------------------------------------------
     //Method to view bus
     public ArrayList<Buses> viewBus() { //Gets buses from Buses Class
