@@ -21,88 +21,131 @@ public class Model {
 
     private ArrayList<Buses> buses; //Private arraylist for buses
     private BusGateway busGateway; //For connection to the DB
-    private StaffGateway staffGateway; 
+    private StaffGateway staffGateway;
+    private MechanicGateway MechanicGateway;
     private List<Driver> driver; //Private arraylist for storing Drivers
+    private List<Mechanic> mechs;
     //private ArrayList<Mechanic> mechaninc; //Private arraylist for storing Mechanics
 
     private static Model instance = null; //Set instance value
 
-    public static synchronized Model getInstance()  //Creates instance for the Bus Object
+    public static synchronized Model getInstance() //Creates instance for the Bus Object
     {
         if (instance == null) {
             instance = new Model();//Creates a new instance because "instance = null"
         }
         return instance;
     }
-    
+
 //------------------------------------------------------------------------------
     //FOR CA2 DRIVER METHODS WILL GO HERE
-
     private Model() {
-        this.driver = new ArrayList<>();        
+        this.driver = new ArrayList<>();
         //When the Model object is created it creates a connection to the database.
         this.staffGateway = new StaffGateway(DatabaseConnection.getInstance().getDbConnection());
         //        this.driver.add(new Driver(1, "John", "Doe", "kickass@hotmail.com", 877654, "PC12341", new Date(2012-01-01), 33.5));
-        try {            
+        try {
             this.driver = this.staffGateway.viewDriver();
-            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.mechs = new ArrayList<>();
+        //When the Model object is created it creates a connection to the database.
+        this.MechanicGateway = new MechanicGateway(DatabaseConnection.getInstance().getDbConnection());
+        try {
+            this.mechs = this.MechanicGateway.viewMechanic();
+
         } catch (SQLException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-    public List<Driver> getDrivers(){
-            return new ArrayList<>
-                    (this.driver);
-        }
-    public void addDriver(Driver d){
-         try {
+
+    public List<Driver> getDrivers() {
+        return new ArrayList<>(this.driver);
+    }
+
+    public void addDriver(Driver d) {
+        try {
             this.staffGateway.insertDriver(d);//Instead of calling the busGateway in my main method
         } catch (SQLException e) {
 
         }
-         
-         
+
 //         f(d.getStaffID() == -1){ //if staffid is = to -1
 ////            System.out.println(this.driver.size());
 //           d.setStaffID(this.driver.size()+1);  //we are going to get the size of the arraylist and add one to each of the values
 //        }//auto incrementing the id
-        
-        
         this.driver.add(d);
-        
+
     }
-   
+
+    //For Viewing in the main method
+    public List<Mechanic> getMechanics() {
+        return new ArrayList<>(this.mechs);
+    }
     
-    public Driver findDriverByID(int staffID){ //Method to Find Drivers by their StaffID
+    public void addMechanic(Mechanic m){
+        try{
+            this.MechanicGateway.insertMechanic(m);
+        } catch (SQLException e){
+            
+        }
+        this.mechs.add(m);
+    }
+
+    public Driver findDriverByID(int staffID) { //Method to Find Drivers by their StaffID
         Driver d = null; //Driver d is set to null
         int i = 0; //For loop
         boolean found = false; //Found is set to false 
-        while ( i < this.driver.size() && !found){
+        while (i < this.driver.size() && !found) {
             d = this.driver.get(i);
-            if (d.getStaffID() == staffID){
+            if (d.getStaffID() == staffID) {
                 found = true; //if a staff id is = to staff id change the boolean to true
-            }
-            else {
+            } else {
                 i++;
             }
         }
         return d;
     }
-    
-//    public ArrayList<Driver> viewDrivers() throws SQLException{
-//        try {
-//            this.driver = staffGateway.viewDriver();
-//        } catch(SQLException e){
-//            
-//        }
-//                return this.driver;
-//        
-//    }
-//------------------------------------------------------------------------------
-    //Method to view bus
-    public ArrayList<Buses> viewBus() { //Gets buses from Buses Class
 
+    public Mechanic findMechanicById(int staffID) { //Method to Find Mechanic by their StaffID
+        Mechanic m = null; //Mechanic m is set to null
+        int i = 0; //For loop
+        boolean found = false; //Found is set to false 
+        while (i < this.mechs.size() && !found) {
+            m = this.mechs.get(i);
+            if (m.getStaffID() == staffID) {
+                found = true; //if a staff id is = to staff id change the boolean to true
+            } else {
+                i++;
+            }
+        }
+        return m;
+    }
+
+//    public void addMechanic(Mechanic m) {
+//        try {
+////            this.staffGateway.insertMechanic(m);//Instead of calling the busGateway in my main method
+//        } //catch (SQLException e) {
+////
+////        }
+    
+        //    public ArrayList<Driver> viewDrivers() throws SQLException{
+    //        try {
+    //            this.driver = staffGateway.viewDriver();
+    //        } catch(SQLException e){
+    //            
+    //        }
+    //                return this.driver;
+    //        
+    //    }
+    //------------------------------------------------------------------------------
+    //Method to view bus
+
+    public ArrayList<Buses> viewBus() { //Gets buses from Buses Class
 
         try {
             this.buses = busGateway.viewBus();//Instead of calling the busGateway in my main method
@@ -111,6 +154,7 @@ public class Model {
         }
         return this.buses;//returns the Arraylist of buses
     }
+
     //Method to edit bus
     public boolean updateBuses(Buses b) {
         boolean updated = false;
@@ -122,10 +166,12 @@ public class Model {
         }
         return updated;//return the boolean
     }
+
     //Method to Add Bus to List
     public void addBus(Buses b) {//Actual add method is in the Main method
         this.buses.add(b);
     }
+
     //Method to view bus by ID
     public Buses findBusByID(int BusID) { //Method to find a Bus by BusID
         Buses b = new Buses(); //creating a new bus
@@ -148,3 +194,4 @@ public class Model {
     }
 //------------------------------------------------------------------------------
 }
+
