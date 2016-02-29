@@ -90,10 +90,10 @@ public class Main {
                 String line = in.nextLine();
                 if (line.equalsIgnoreCase("D")) // if the next line as a D run the create driver method
                 {
-//                    createDriver(in, m);
+                    createDriver(in, m);
 
                 } else if (line.equalsIgnoreCase("M")) { // If it has an M or anything else there will be a mechanic added
-//                    createMechanic(in, m);
+                    createMechanic(in, m);
                 }
             }
             in.close();
@@ -159,7 +159,6 @@ public class Main {
         String em = in.nextLine(); //String for Email
         int cn = in.nextInt();
         int sc = in.nextInt();
-        String blank = in.nextLine();//Read the /n left by the nextInt()
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); //Date formatting
         Date dateStart = null;
         String startDate = in.next();
