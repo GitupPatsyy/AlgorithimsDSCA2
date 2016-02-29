@@ -66,8 +66,8 @@ public class MechanicGateway {
             stmt.setString(2, mechanic.getLastName());
             stmt.setString(3, mechanic.getEmailAdd());
             stmt.setInt(4, mechanic.getContactNo());
-            stmt.setDate(6, new Date(mechanic.getStartDate().getTime()));
             stmt.setInt(5, mechanic.getServicesComplete());
+            stmt.setDate(6, new Date(mechanic.getStartDate().getTime()));
             stmt.setDouble(7, mechanic.getOverTime());
 
             rowsAffected = stmt.executeUpdate();//Update the table
