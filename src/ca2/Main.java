@@ -7,7 +7,9 @@ package ca2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import static java.lang.Integer.parseInt;
+import static java.lang.System.out;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,14 +31,16 @@ public class Main {
         Scanner in = new Scanner(System.in);//Scanner for input
 
         Model model = Model.getInstance();//Get particular instance of the model
+        //Database connection made here
 
         int menu = 0;//Integer for selecting a menu option
 
         do {
             System.out.println("1 - Create entry from an input file");
-            System.out.println("2 - Generate Payslisps");
+            System.out.println("2 - Generate Reviews");
             System.out.println("3 - View all Drivers");
-            System.out.println("4 - Display ALL Staff members");
+            System.out.println("4 - View all Mechs");
+            System.out.println("5 - Display ALL Staff members");
             System.out.println("0 - Exit");
             System.out.println();
 
@@ -61,7 +65,12 @@ public class Main {
                 case 3: {
                     System.out.println("View all drivers...");
                     viewDrivers(model); //Will view all drivers
-                    
+
+                }
+                
+                case 4: {
+                    System.out.println("Viewing all mechs");
+                    viewMechanics(model);
                 }
 
             }
@@ -81,10 +90,10 @@ public class Main {
                 String line = in.nextLine();
                 if (line.equalsIgnoreCase("D")) // if the next line as a D run the create driver method
                 {
-                    createDriver(in, m);
+//                    createDriver(in, m);
 
                 } else if (line.equalsIgnoreCase("M")) { // If it has an M or anything else there will be a mechanic added
-                    System.out.println("Dum dum");
+//                    createMechanic(in, m);
                 }
             }
             in.close();
@@ -119,7 +128,7 @@ public class Main {
         m.addDriver(d); //Use the models add driver method to add the driver to the arraylist
     }
 
-    //Method to view the arraylist
+    //Method to view the arraylistof Drivers
     private static void viewDrivers(Model ml) {
         List<Driver> drivers = ml.getDrivers();
         System.out.println(); //Print a blank line for space
@@ -142,40 +151,79 @@ public class Main {
         }
         System.out.println();//Print a blank line for spacing
     }
-    
-  
+
+    private static void createMechanic(Scanner in, Model md) {
+
+        String fn = in.nextLine(); //String for First name
+        String ln = in.nextLine(); //String for Last name
+        String em = in.nextLine(); //String for Email
+        int cn = in.nextInt();
+        int sc = in.nextInt();
+        String blank = in.nextLine();//Read the /n left by the nextInt()
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); //Date formatting
+        Date dateStart = null;
+        String startDate = in.next();
+        System.out.println(); //Reads the \n after the date field
+        double ot = in.nextDouble();
+
+        try { // Try to parse the date 
+
+            dateStart = df.parse(startDate); //Nww variable to hold the parse of the date
+        } catch (ParseException e) { //Catch clause
+        }
+
+        Mechanic m = new Mechanic(fn, ln, em, cn, sc, dateStart, ot); //New mechanic object
+        md.addMechanic(m); //Use the models add mechanic method to add the driver to the arraylist
+    }
+
+    //Arraylist view of the mechanics
+    private static void viewMechanics(Model ml) {
+        List<Mechanic> mechs = ml.getMechanics();
+        System.out.println(); //Print a blank line for space
+        if (mechs.isEmpty()) { //If the mechs is empty print out the error below
+            System.out.println("There are no mechanics within our database");
+        } else {
+            System.out.printf("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
+                    "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| Services Completed |", "| Start Date |", "| Over Time |");
+            for (Mechanic mc : mechs) {
+                System.out.printf("%10s %20s %20s %20s %12s %15s %15s %15s\n",
+                        mc.getStaffID(),
+                        mc.getFirstName(),
+                        mc.getLastName(),
+                        mc.getEmailAdd(),
+                        mc.getContactNo(),
+                        mc.getServicesComplete(),
+                        mc.getStartDate(),
+                        mc.getOverTime());
+            }
+        }
+        System.out.println();//Print a blank line for spacing
+    }
 
     private static void generateReview(Model m) {
         //OBject for a STAFF memeber. 
         //Staff member can be either driver or mechancic
         Staff s = null;
         //Read ids from the text file from the model
-        File inputFile = new File("payslips.txt");
-        try {
-            Scanner in = new Scanner(inputFile);
-            while (in.hasNextLine()) {
-                String line = in.nextLine(); //Eat up blank space
-                String id = in.nextLine();
-                int staffId = parseInt(id.trim());
-                System.out.println("Line " + line);
-                System.out.println("ID " + staffId);
-                if (line.equalsIgnoreCase("D")) {
-                    s = m.findDriverByID(staffId);
-                }
-                else if (line.equalsIgnoreCase("M")) {
-//                    s = m.findMechanicByID(staffId);
-                }
-                
-                if (s != null)
-                    //utilises polymorphism, can call drivers or the mechanics method to print reviews
-                    s.printReview();
-                else 
-                    System.out.println("Staff number: " + staffId + " non existent");
+        PrintWriter output = null;
 
-            }
+        try {
+            output = new PrintWriter(new File("out.txt"));
+
+            output.println();
         } catch (FileNotFoundException ex) {
-           System.out.println("No such file be in existence inside of this dimension - check another portal");
+            System.out.println("No such file be in existence inside of this dimension - check another portal");
+        } finally {
+            if (out != null);
+            out.close();
         }
+
+//                if (s != null) //utilises polymorphism, can call drivers or the mechanics method to print reviews
+//                {
+//                    s.printReview();
+//                } else {
+//                    System.out.println("Staff number: " + staffId + " non existent");
+//                }
     }
 
 }//Main method closing brace
