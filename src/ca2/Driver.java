@@ -78,11 +78,11 @@ public class Driver extends Staff {
     
      
     public void viewStaff() {
-        System.out.printf("%5s %20s %30s %30s %30s %20s %15s %10s \n",
-                "Id", "First Name", "Last Name", "Email", "Contact No", "License No", "Start Date", "Hours Drove");
+        System.out.printf("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
+                    "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| License No |", "| Start Date |", "| Hours Drove |");
         //Super class view method called
         super.viewStaff();
-        System.out.printf("%10s 10d\n", this.startDate, this.hoursDrove);
+        System.out.printf("%15s 15d\n", this.startDate, this.hoursDrove);
     }
     
       @Override
@@ -93,7 +93,7 @@ public class Driver extends Staff {
       Calendar mCalendar = Calendar.getInstance();    
       String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
        
-        System.out.println("MONTHLY PAY FOR : " + month + this.hoursDrove*7);
+        System.out.println("Monthly Hours Drove for: " + month + " "  + getHoursDrove());
                
     }
 

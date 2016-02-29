@@ -5,7 +5,7 @@
  */
 package ca2;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -79,11 +79,11 @@ public class Mechanic extends Staff {
     //Display method is in both super classes sub classes, so polymorphism can be utilised here
     public void viewStaff() {
 
-        System.out.printf("%5s %20s %30s %30s %30s %20s %10d %10s %10d \n",
-                "Id", "First Name", "Last Name", "Email", "Contact No", "No of Services", "Start Date", "Over Time");
+        System.out.printf("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
+                    "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| No of Services |", "| Start Date |", "| Over Time |");
         //Super class view method called
         super.viewStaff();
-        System.out.printf("%10s 10d\n", this.startDate, this.overTime);
+        System.out.printf("%15s 15s\n", this.startDate, this.overTime);
 
     }
 
@@ -94,7 +94,13 @@ public class Mechanic extends Staff {
         Calendar cCalendar = Calendar.getInstance();
         String month = cCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         
-        System.out.println("Monthly pay for " + month + "€3200");
+        System.out.println("Monthly OT hours for " + month + " are " + getOverTime());
+        if (getOverTime() > 20){
+            System.out.println("Your work level has been above par and we would like to congratulate and hope you keep up the hard work");
+        }
+        else {
+            System.out.println("Your work level is slacking you are going to have to the finger out or you may face a serious sacking.");
+        }
 
     }
 
