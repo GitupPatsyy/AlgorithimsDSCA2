@@ -25,6 +25,7 @@ public class Model {
     private MechanicGateway MechanicGateway;
     private List<Driver> driver; //Private arraylist for storing Drivers
     private List<Mechanic> mechs;
+    private List<Staff> staff;//Private arraylist to hold all staff objects, for polymorphic array
     //private ArrayList<Mechanic> mechaninc; //Private arraylist for storing Mechanics
 
     private static Model instance = null; //Set instance value
@@ -40,6 +41,7 @@ public class Model {
 //------------------------------------------------------------------------------
     //FOR CA2 DRIVER METHODS WILL GO HERE
     private Model() {
+ 
         this.driver = new ArrayList<>();
         //When the Model object is created it creates a connection to the database.
         this.staffGateway = new StaffGateway(DatabaseConnection.getInstance().getDbConnection());
@@ -50,20 +52,35 @@ public class Model {
         } catch (SQLException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+     
+    this.mechs  = new ArrayList<>();
+    //When the Model object is created it creates a connection to the database.
+     
+    this.MechanicGateway  = new MechanicGateway(DatabaseConnection.getInstance().getDbConnection());
 
-        this.mechs = new ArrayList<>();
-        //When the Model object is created it creates a connection to the database.
-        this.MechanicGateway = new MechanicGateway(DatabaseConnection.getInstance().getDbConnection());
+    
         try {
             this.mechs = this.MechanicGateway.viewMechanic();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
+    catch (SQLException ex
 
+    
+        ) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    public List<Driver> getDrivers() {
+     
+    this.staff  = new ArrayList<>();
+     
+    this.MechanicGateway  = new MechanicGateway(DatabaseConnection.getInstance().getDbConnection());
+     
+    this.staffGateway  = new StaffGateway(DatabaseConnection.getInstance().getDbConnection());
+
+}
+
+public List<Driver> getDrivers() {
         return new ArrayList<>(this.driver);
     }
 
@@ -125,6 +142,10 @@ public class Model {
         }
         return m;
     }
+    
+    public List <Staff> getStaff() {
+        return new ArrayList<> (this.staff);
+    }
 
 //    public void addMechanic(Mechanic m) {
 //        try {
@@ -161,8 +182,12 @@ public class Model {
 
         try {
             updated = this.busGateway.updateBus(b);//For establishing DB connection
-        } catch (SQLException e) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, e);
+        
+
+} catch (SQLException e) {
+            Logger.getLogger(Model.class  
+
+.getName()).log(Level.SEVERE, null, e);
         }
         return updated;//return the boolean
     }
@@ -194,4 +219,3 @@ public class Model {
     }
 //------------------------------------------------------------------------------
 }
-
