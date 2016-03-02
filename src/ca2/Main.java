@@ -205,69 +205,47 @@ public class Main {
     }
 
     private static void viewAllStaff(Model m) {
-        List<Mechanic> mechs = m.getMechanics();
-        System.out.println(); //Print a blank line for space
-        List<Driver> drivers = m.getDrivers();
-        System.out.println(); //Print a blank line for space
-//        System.out.println(drivers.size());
-//        System.out.println(mechs.size());
-
-        if (mechs.isEmpty() && drivers.isEmpty()) { //If the mechs is empty print out the error below
-            System.out.println("There are no staff members within our database");
-        } else {
-            System.out.println("Mechanics");
-            System.out.printf("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
-                    "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| Services Completed |", "| Start Date |", "| Over Time |");
-            for (Mechanic mc : mechs) {
-                System.out.printf("%10s %20s %20s %20s %12s %15s %15s %15s\n",
-                        mc.getStaffID(),
-                        mc.getFirstName(),
-                        mc.getLastName(),
-                        mc.getEmailAdd(),
-                        mc.getContactNo(),
-                        mc.getServicesComplete(),
-                        mc.getStartDate(),
-                        mc.getOverTime());
-                System.out.println();//Print a blank line for spacing
-
-                System.out.println("Drivers");
-                System.out.printf("%10s %20s %20s %25s %18s %18s %15s %15s\n",//Formatting lenghts
-                        "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| License No |", "| Start Date |", "| Hours Drove |");
-                for (Driver dr : drivers) {
-                    System.out.printf("%10s %20s %20s %20s %12s %15s %15s %15s\n",
-                            dr.getStaffID(),
-                            dr.getFirstName(),
-                            dr.getLastName(),
-                            dr.getEmailAdd(),
-                            dr.getContactNo(),
-                            dr.getLicense(),
-                            dr.getStartDate(),
-                            dr.getHoursDrove());
-
-                    System.out.println();//Print a blank line for spacing
-                }
-            }
-        }
+       List<Driver> driver = m.getDrivers();
+       List<Mechanic> mechs = m.getMechanics();
+       
+       System.out.println("************************DRIVERS**********************");
+       
+       for(Driver dr : driver){
+           System.out.println("Been looking at your performance lately, it really isnt up to stratch. The other partners and I have been talking and we're aftaid we are going to have to let you go.");
+           dr.viewStaff();
+       }
+       
+       System.out.println("************************MECHANICS**********************");
+       
+       for(Mechanic mech : mechs){
+           mech.viewStaff();
+       }
+       
     }
 
-private static void generateReview(Scanner in, Model m) throws FileNotFoundException {
+private static void generateReview(Scanner in, Model m) {
         //OBject for a STAFF memeber. 
         //Staff member can be either driver or mechancic
         System.out.println("Please create a file name to output the data to: ");
         String outputFileName = in.nextLine();
-        Staff s = null;
+//        Staff s = null;
+        List<Mechanic> mech = m.getMechanics();
+        System.out.println(mech.size());
         //Read ids from the text file from the model
-        PrintWriter output = null;
-
+        PrintWriter output;
+        //File file = new File(outputFileName);
+        
         try {
             output = new PrintWriter(new File(outputFileName)); //New file will create new file when selecting the review
-//            for (Staff st :  )
-            output.println();
+            
+            for(Mechanic mc : mech){
+                output.println(mc.printReview());
+            }
+            
+            output.close();
+            
         } catch (FileNotFoundException ex) {
             System.out.println("No such file be in existence inside of this dimension - check another portal");
-        } finally {
-            if (out != null);
-            out.close();
         }
 
 //                if (s != null) //utilises polymorphism, can call drivers or the mechanics method to print reviews
