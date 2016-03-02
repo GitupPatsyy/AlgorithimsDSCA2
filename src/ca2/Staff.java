@@ -102,21 +102,26 @@ public class Staff {//Super Class
         this.contactNo = contactNo;
     }
     
-    //Method to viewstaff information
-    public void viewStaff() {
-        System.out.printf("%5d %20s %30s %20s %10d ",
+    public String getStaffInfo()
+    {
+        String str = String.format("%5d %20s %30s %20s %10d ",
         this.staffID,
         this.firstName,
         this.lastName,
         this.emailAdd,
         this.contactNo);
+        
+        return str;
     }
     
-    public void printReview()
-    {
-        this.viewStaff();
-        System.out.println("Been looking at your performance lately, it really isnt up to stratch. The other partners and I have been talking and we're aftaid we are going to have to let you go.");
+    //Method to viewstaff information
+    public void viewStaff() {
+        System.out.println(getStaffInfo());
     }
     
+    public String printReview()
+    {    
+        return getStaffInfo();
+    }
     
 }
