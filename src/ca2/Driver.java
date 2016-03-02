@@ -74,28 +74,38 @@ public class Driver extends Staff {
     public void setHoursDrove(double hoursDrove) {
         this.hoursDrove = hoursDrove;
     }
-    
-    
-     
-    public void viewStaff() {
-        System.out.printf("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
-                    "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| License No |", "| Start Date |", "| Hours Drove |");
-        //Super class view method called
-        super.viewStaff();
-        System.out.printf("%15s 15d\n", this.startDate, this.hoursDrove);
-    }
-    
-      @Override
-    public void printReview()
-    {
-       this.viewStaff();
-       
-      Calendar mCalendar = Calendar.getInstance();    
-      String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-       
-        System.out.println("Monthly Hours Drove for: " + month + " "  + getHoursDrove());
-               
+
+    public String formatStaffView() {
+        String str = String.format("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
+                "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| License No |", "| Start Date |", "| Hours Drove |");
+        String staffInfo = super.getStaffInfo();
+        String dates = String.format("%15s 15d\n", this.startDate, this.hoursDrove);
+
+        return str + staffInfo + dates;
     }
 
+    public void viewStaff() {
+        System.out.println(formatStaffView());
+    }
+
+    @Override
+    public String printReview() {
+        String staffView = this.formatStaffView();
+
+        Calendar mCalendar = Calendar.getInstance();
+        String month = mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+
+        String dateHeading = "Monthly Hours Drove for: " + month + " " + getHoursDrove();
+
+        String review;
+        if (getHoursDrove() > 20) {
+            review = "Your work level has been above par and we would like to congratulate and hope you keep up the hard work";
+        } else {
+            review = "Your work level is slacking you are going to have to the finger out or you may face a serious sacking.";
+        }
+        
+        return staffView + month + dateHeading + review;
+
+    }
 
 }
