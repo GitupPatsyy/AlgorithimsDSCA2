@@ -76,10 +76,10 @@ public class Driver extends Staff {
     }
 
     public String formatStaffView() {
-        String str = String.format("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
-                "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| License No |", "| Start Date |", "| Hours Drove |");
+        String str = String.format("%10s %17s %17s %25s %12s %15s %10s %10s\n",//Formatting lenghts
+                "\n | StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| License No |", "| Start Date |", "| Hours Drove |\n");
         String staffInfo = super.getStaffInfo();
-        String dates = String.format("%15s 15d\n", this.startDate, this.hoursDrove);
+        String dates = String.format("%15s %15s %15s\n", this.license,this.startDate,  this.hoursDrove);
 
         return str + staffInfo + dates;
     }

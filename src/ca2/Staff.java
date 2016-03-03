@@ -104,7 +104,7 @@ public class Staff {//Super Class
     
     public String getStaffInfo()
     {
-        String str = String.format("%5d %20s %30s %20s %10d ",
+        String str = String.format("%5d %20s %20s %25s %15d ",
         this.staffID,
         this.firstName,
         this.lastName,
@@ -119,7 +119,7 @@ public class Staff {//Super Class
         System.out.println(getStaffInfo());
     }
     
-    public String printReview()
+    public String printReview ()
     {    
         return getStaffInfo();
     }

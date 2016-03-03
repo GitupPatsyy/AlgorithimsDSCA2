@@ -77,11 +77,11 @@ public class Mechanic extends Staff {
     
     //Formatting method for stafffview
     public String formatStaffView() {
-        String str = String.format("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
-                    "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| No of Services |", "| Start Date |", "| Over Time |");
+        String str = String.format("%10s %17s %17s %25s %12s %15s %10s %10s\n",//Formatting lenghts
+                    "\n| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| No of Services |", "| Start Date |", "| Over Time |\n");
         
         String staffInfo = super.getStaffInfo();
-        String dates = String.format("%15s 15s\n", this.startDate, this.overTime);
+        String dates = String.format("%15s %15s %15s\n", this.startDate, this.servicesComplete, this.overTime);
         
         return str + staffInfo + dates;
         
@@ -101,13 +101,13 @@ public class Mechanic extends Staff {
         Calendar cCalendar = Calendar.getInstance();
         String month = cCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         
-        String dateHeading = "Monthly OT hours for " + month + " are " + getOverTime();
+        String dateHeading = "\nMonthly OT hours for " + month + " are " + getOverTime();
         String review;
         if (getOverTime() > 20){
-            review = "Your work level has been above par and we would like to congratulate and hope you keep up the hard work";
+            review = "\n Your work level has been above par and we would like to congratulate and hope you keep up the hard work";
         }
         else {
-             review = "Your work level is slacking you are going to have to the finger out or you may face a serious sacking.";
+             review = "\nYour work level is slacking you are going to have to the finger out or you may face a serious sacking.";
         }
         
         return staffView + dateHeading + review;
