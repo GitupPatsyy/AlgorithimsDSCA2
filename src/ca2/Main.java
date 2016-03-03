@@ -208,18 +208,22 @@ public class Main {
     private static void viewAllStaff(Model m) {
         List<Driver> driver = m.getDrivers();
         List<Mechanic> mechs = m.getMechanics();
+        List<Staff> staff = m.getStaff();
+        
+        staff.addAll(driver);
+        staff.addAll(mechs);
 
-        System.out.println("************************DRIVERS**********************");
+//        System.out.println("************************DRIVERS**********************");
 
-        for (Driver dr : driver) {
-            dr.viewStaff();
+        for (Staff sf : staff) {
+            sf.viewStaff();
         }
 
-        System.out.println("************************MECHANICS**********************");
-
-        for (Mechanic mech : mechs) {
-            mech.viewStaff();
-        }
+//        System.out.println("************************MECHANICS**********************");
+//
+//        for (Mechanic mech : mechs) {
+//            mech.viewStaff();
+//        }
 
     }
 
@@ -230,25 +234,26 @@ public class Main {
         String outputFileName = in.nextLine();
 //        Staff s = null;
         List<Mechanic> mech = m.getMechanics();
-        System.out.println(mech.size());
         List<Driver> drive = m.getDrivers();
-        System.out.println(drive.size());
+        List<Staff> staff = m.getStaff();
         //Read ids from the text file from the model
         PrintWriter output;
         //File file = new File(outputFileName);
-
+        staff.addAll(drive);
+        staff.addAll(mech);
+        
         try {
             output = new PrintWriter(new File(outputFileName + ".txt")); //New file will create new file when selecting the review
 
-            for (Mechanic mc : mech) {
-                output.println("'\nMechanic");
-                output.println(mc.printReview());
+            for (Staff st : staff) { //For all staff members it will print out the respective printreview method (polymorphism)
+                output.println(st.printReview());
+                output.println("********************************************************************************************************************************************");
             }
             
-            for (Driver d : drive){
-                output.println("\nDriver");
-                output.println(d.printReview());
-            }
+//            for (Driver d : drive){
+//                output.println("\nDriver");
+//                output.println(d.printReview());
+//            }
 
             output.close();
 
