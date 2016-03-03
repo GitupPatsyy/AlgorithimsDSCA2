@@ -40,7 +40,7 @@ public class Main {
             System.out.println("2 - Generate Reviews");
             System.out.println("3 - View all Drivers");
             System.out.println("4 - View all Mechs");
-            System.out.println("5 - Display ALL Staff members");
+            System.out.println("5 - View all members of Staff");
             System.out.println("0 - Exit");
             System.out.println();
 
@@ -57,7 +57,7 @@ public class Main {
                 }
 
                 case 2: {//file output function
-                    System.out.println("Generating staff payslisps...");
+                    System.out.println("Generating staff review..");
                     generateReview(in, model);
                     break;
                 }
@@ -77,6 +77,7 @@ public class Main {
                     System.out.println("Viewing all staff");
                     viewAllStaff(model);
                 }
+
 
             }
         } while (menu != 0);
@@ -187,10 +188,10 @@ public class Main {
         if (mechs.isEmpty()) { //If the mechs is empty print out the error below
             System.out.println("There are no mechanics within our database");
         } else {
-            System.out.printf("%10s %20s %20s %20s %12s %15s %10s %10s\n",//Formatting lenghts
+            System.out.printf("%10s %17s %17s %20s %12s %15s %10s %10s\n",//Formatting lenghts
                     "| StaffId |", "| First Name |", "| Last Name |", "| Email |", "| Contact No |", "| Services Completed |", "| Start Date |", "| Over Time |");
             for (Mechanic mc : mechs) {
-                System.out.printf("%10s %20s %20s %20s %12s %15s %15s %15s\n",
+                System.out.printf("%10s %13s %13s %17s %12s %15s %15s %15s\n",
                         mc.getStaffID(),
                         mc.getFirstName(),
                         mc.getLastName(),
@@ -205,25 +206,24 @@ public class Main {
     }
 
     private static void viewAllStaff(Model m) {
-       List<Driver> driver = m.getDrivers();
-       List<Mechanic> mechs = m.getMechanics();
-       
-       System.out.println("************************DRIVERS**********************");
-       
-       for(Driver dr : driver){
-           System.out.println("Been looking at your performance lately, it really isnt up to stratch. The other partners and I have been talking and we're aftaid we are going to have to let you go.");
-           dr.viewStaff();
-       }
-       
-       System.out.println("************************MECHANICS**********************");
-       
-       for(Mechanic mech : mechs){
-           mech.viewStaff();
-       }
-       
+        List<Driver> driver = m.getDrivers();
+        List<Mechanic> mechs = m.getMechanics();
+
+        System.out.println("************************DRIVERS**********************");
+
+        for (Driver dr : driver) {
+            dr.viewStaff();
+        }
+
+        System.out.println("************************MECHANICS**********************");
+
+        for (Mechanic mech : mechs) {
+            mech.viewStaff();
+        }
+
     }
 
-private static void generateReview(Scanner in, Model m) {
+    private static void generateReview(Scanner in, Model m) {
         //OBject for a STAFF memeber. 
         //Staff member can be either driver or mechancic
         System.out.println("Please create a file name to output the data to: ");
@@ -231,19 +231,27 @@ private static void generateReview(Scanner in, Model m) {
 //        Staff s = null;
         List<Mechanic> mech = m.getMechanics();
         System.out.println(mech.size());
+        List<Driver> drive = m.getDrivers();
+        System.out.println(drive.size());
         //Read ids from the text file from the model
         PrintWriter output;
         //File file = new File(outputFileName);
-        
+
         try {
-            output = new PrintWriter(new File(outputFileName)); //New file will create new file when selecting the review
-            
-            for(Mechanic mc : mech){
+            output = new PrintWriter(new File(outputFileName + ".txt")); //New file will create new file when selecting the review
+
+            for (Mechanic mc : mech) {
+                output.println("'\nMechanic");
                 output.println(mc.printReview());
             }
             
+            for (Driver d : drive){
+                output.println("\nDriver");
+                output.println(d.printReview());
+            }
+
             output.close();
-            
+
         } catch (FileNotFoundException ex) {
             System.out.println("No such file be in existence inside of this dimension - check another portal");
         }
@@ -254,6 +262,10 @@ private static void generateReview(Scanner in, Model m) {
 //                } else {
 //                    System.out.println("Staff number: " + staffId + " non existent");
 //                }
+    }
+
+    void bubbleSort(Driver driver[]) {
+        System.out.println(driver);
     }
 
 }//Main method closing brace
